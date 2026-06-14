@@ -3,7 +3,8 @@
 import { resolve } from "node:path";
 
 import { HELP, parseArgs } from "./0-args";
-import { printViolations, runScan } from "./1-scan";
+import { runScan } from "./1-scan";
+import { printViolations } from "./5-print-violations";
 
 function main(): void {
     const { fix, help, paths } = parseArgs(process.argv.slice(2));
@@ -35,3 +36,6 @@ function main(): void {
 }
 
 main();
+
+//TODO: colorize the output
+//TODO: use object from runScan() and pass it to printViolations()

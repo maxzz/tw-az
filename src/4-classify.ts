@@ -10,21 +10,6 @@ import {
     VARIANT,
 } from "./8-constants";
 
-function baseToken(token: string): string {
-    if (/^group\/[\w-]+$/.test(token)) {
-        return token;
-    }
-    const parts = token.split(":");
-    return parts[parts.length - 1] ?? token;
-}
-
-function hasVariantPrefix(token: string): boolean {
-    if (/^group\/[\w-]+$/.test(token)) {
-        return false;
-    }
-    return token.includes(":");
-}
-
 export function classify(token: string): number {
     const base = baseToken(token);
     const variant = hasVariantPrefix(token);
@@ -156,4 +141,19 @@ export function classify(token: string): number {
     }
 
     return -1;
+}
+
+function baseToken(token: string): string {
+    if (/^group\/[\w-]+$/.test(token)) {
+        return token;
+    }
+    const parts = token.split(":");
+    return parts[parts.length - 1] ?? token;
+}
+
+function hasVariantPrefix(token: string): boolean {
+    if (/^group\/[\w-]+$/.test(token)) {
+        return false;
+    }
+    return token.includes(":");
 }

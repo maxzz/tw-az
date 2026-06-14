@@ -1,3 +1,12 @@
+// Scan options
+
+export interface ScanOptions {
+    extensions?: string[];
+    fix?: boolean;
+}
+
+// Class string matches
+
 export interface ClassMatch {
     value: string;
     index: number;
@@ -5,11 +14,15 @@ export interface ClassMatch {
     full: string;
 }
 
+// Order violations
+
 export interface OrderViolation {
     token: string;
     group: string;
     after: string;
 }
+
+// File violations
 
 export interface FileViolation {
     file: string;
@@ -18,13 +31,10 @@ export interface FileViolation {
     violations: OrderViolation[];
 }
 
+// Fix replacements
+
 export interface FixReplacement {
     index: number;
     length: number;
     replacement: string;
-}
-
-export interface ScanOptions {
-    extensions?: string[];
-    fix?: boolean;
 }

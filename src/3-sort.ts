@@ -2,6 +2,33 @@ import { classify } from "./4-classify";
 import { GROUP_NAMES, UNKNOWN } from "./8-constants";
 import type { OrderViolation } from "./9-types";
 
+// Check the class string
+
+export function checkClassString(value: string): OrderViolation[] {
+    const tokens = value.split(/\s+/).filter(Boolean);
+    const classified = tokens
+        .map((token) => ({ token, group: classify(token) }))
+        .filter((x) => x.group >= 0);
+
+    const violations: OrderViolation[] = [];
+    let maxGroup = -1;
+
+    for (const { token, group } of classified) {
+        if (group < maxGroup) {
+            violations.push({
+                token,
+                group: GROUP_NAMES[group] ?? `group ${group}`,
+                after: GROUP_NAMES[maxGroup] ?? `group ${maxGroup}`,
+            });
+        }
+        maxGroup = Math.max(maxGroup, group);
+    }
+
+    return violations;
+}
+
+// Sort the class string
+
 interface TokenWithMeta {
     token: string;
     sortGroup: number;
@@ -34,27 +61,4 @@ export function sortClassString(value: string): string {
     );
 
     return withMeta.map((x) => x.token).join(" ");
-}
-
-export function checkClassString(value: string): OrderViolation[] {
-    const tokens = value.split(/\s+/).filter(Boolean);
-    const classified = tokens
-        .map((token) => ({ token, group: classify(token) }))
-        .filter((x) => x.group >= 0);
-
-    const violations: OrderViolation[] = [];
-    let maxGroup = -1;
-
-    for (const { token, group } of classified) {
-        if (group < maxGroup) {
-            violations.push({
-                token,
-                group: GROUP_NAMES[group] ?? `group ${group}`,
-                after: GROUP_NAMES[maxGroup] ?? `group ${maxGroup}`,
-            });
-        }
-        maxGroup = Math.max(maxGroup, group);
-    }
-
-    return violations;
 }
