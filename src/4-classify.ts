@@ -10,7 +10,7 @@ import {
     VARIANT,
 } from "./8-constants";
 
-export function baseToken(token: string): string {
+function baseToken(token: string): string {
     if (/^group\/[\w-]+$/.test(token)) {
         return token;
     }
@@ -18,7 +18,7 @@ export function baseToken(token: string): string {
     return parts[parts.length - 1] ?? token;
 }
 
-export function hasVariantPrefix(token: string): boolean {
+function hasVariantPrefix(token: string): boolean {
     if (/^group\/[\w-]+$/.test(token)) {
         return false;
     }

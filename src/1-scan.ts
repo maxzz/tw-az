@@ -6,7 +6,7 @@ import { extractClassStrings } from "./2-extract";
 import { checkClassString, sortClassString } from "./3-sort";
 import type { FileViolation, FixReplacement, ScanOptions } from "./9-types";
 
-export function walk(dir: string, extensions: readonly string[] = DEFAULT_EXTENSIONS, files: string[] = []): string[] {
+function walk(dir: string, extensions: readonly string[] = DEFAULT_EXTENSIONS, files: string[] = []): string[] {
     for (const entry of readdirSync(dir)) {
         const full = join(dir, entry);
 
@@ -21,7 +21,7 @@ export function walk(dir: string, extensions: readonly string[] = DEFAULT_EXTENS
     return files;
 }
 
-export function collectFiles(paths: string[], extensions: readonly string[]): string[] {
+function collectFiles(paths: string[], extensions: readonly string[]): string[] {
     const files: string[] = [];
 
     for (const inputPath of paths) {
@@ -38,7 +38,7 @@ export function collectFiles(paths: string[], extensions: readonly string[]): st
     return [...new Set(files)].sort();
 }
 
-export function applyFixes(file: string, matches: ReturnType<typeof extractClassStrings>): number {
+function applyFixes(file: string, matches: ReturnType<typeof extractClassStrings>): number {
     const toApply = matches
         .map(
             ({ index, length, full, value }): FixReplacement | null => {
@@ -72,7 +72,7 @@ export function applyFixes(file: string, matches: ReturnType<typeof extractClass
     return toApply.length;
 }
 
-export function scanForViolations(filePaths: string[], rootDir: string): FileViolation[] {
+function scanForViolations(filePaths: string[], rootDir: string): FileViolation[] {
     const violations: FileViolation[] = [];
 
     for (const file of filePaths) {
@@ -142,7 +142,7 @@ export function runScan(paths: string[], options: ScanOptions = {}): { fileCount
 
         if (fixedCount > 0) {
             console.log("Re-checking after fix...\n");
-            
+
             const remaining = scanForViolations(files, rootDir);
             return { fileCount: files.length, violations: remaining, fixedCount };
         }
