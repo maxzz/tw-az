@@ -1,0 +1,47 @@
+{
+  "name": "twaz",
+  "version": "0.1.0",
+  "description": "Check and automatically fix Tailwind CSS utility class order in JSX/TSX files",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "bin": {
+    "twaz": "./dist/cli.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "tailwind",
+    "tailwindcss",
+    "class-order",
+    "lint",
+    "cli",
+    "jsx",
+    "tsx"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsx src/cli.ts",
+    "start": "tsx src/cli.ts",
+    "fix": "tsx src/cli.ts --fix",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "tsdown": "^0.22.2",
+    "tsx": "^4.22.4",
+    "typescript": "^5.8.3"
+  }
+}
