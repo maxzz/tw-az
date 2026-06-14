@@ -4,6 +4,39 @@ Check and automatically fix Tailwind CSS utility class order in JSX/TSX files.
 
 `twaz` enforces a consistent, readable order for `className`, `class`, and `cn()` arguments. It scans source files, reports violations, and can reorder classes in place with `--fix`.
 
+## Table of contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [CLI](#cli)
+  - [Programmatic API](#programmatic-api)
+- [Development](#development)
+- [What gets scanned](#what-gets-scanned)
+- [Tailwind class order rules](#tailwind-class-order-rules)
+  - [Precedence overview](#precedence-overview)
+  - [1. Position anchor](#1-position-anchor)
+  - [2. Position offsets](#2-position-offsets)
+  - [3. Self & group](#3-self--group)
+  - [4. Element](#4-element)
+  - [5. Margin & padding](#5-margin--padding)
+  - [6. Width & height](#6-width--height)
+  - [7. Display](#7-display)
+  - [8. Text size](#8-text-size)
+  - [9. Font](#9-font)
+  - [10. Text color](#10-text-color)
+  - [11. Background & fill color](#11-background--fill-color)
+  - [12. Variant modifiers](#12-variant-modifiers)
+  - [13. Transition](#13-transition)
+  - [14. Border](#14-border)
+  - [15. Rounding](#15-rounding)
+  - [16. Shadow](#16-shadow)
+  - [17. Truncate & overflow](#17-truncate--overflow)
+  - [18. Children (grid & flex)](#18-children-grid--flex)
+  - [19. End](#19-end)
+- [Examples](#examples)
+- [How violations are detected](#how-violations-are-detected)
+- [Execution flow](#execution-flow)
+
 ## Installation
 
 ```bash
@@ -331,6 +364,53 @@ cursor-* | pointer-events-* | z-*
 
 Unrecognized tokens are ignored for ordering (they do not trigger violations and stay in place during `--fix`).
 
-## License
+---
 
-MIT
+## Execution flow
+
+```mermaid
+flowchart TD
+    Start([CLI or programmatic API]) --> Entry{Entry point}
+
+    Entry -->|CLI| ParseArgs[parseArgs]
+    ParseArgs -->|help| Help[Print help → exit 0]
+    ParseArgs -->|paths + options| RunScan[runScan]
+
+    Entry -->|API| RunScan
+    Entry -->|checkClassString / sortClassString| Classify[classify token]
+
+    RunScan --> CollectFiles[collectFiles]
+    CollectFiles --> Walk{Directory?}
+    Walk -->|yes| Recurse[walk — skip node_modules, dist, .git]
+    Walk -->|no| SingleFile[Add matching file]
+    Recurse --> Files[.tsx / .jsx file list]
+    SingleFile --> Files
+
+    Files --> FixMode{fix option?}
+
+    FixMode -->|yes| FixLoop[For each file]
+    FixLoop --> ReadFix[readFileSync]
+    ReadFix --> ExtractFix[extractClassStrings]
+    ExtractFix --> ApplyFixes[applyFixes]
+    ApplyFixes --> CheckEach{checkClassString}
+    CheckEach -->|violations| SortFix[sortClassString → classify]
+    SortFix --> WriteFile[writeFileSync in place]
+    CheckEach -->|ok| SkipFix[Skip]
+    WriteFile --> Recheck[Re-scan with scanForViolations]
+    SkipFix --> Recheck
+    Recheck --> ReportFix[printViolations / return result]
+
+    FixMode -->|no| ScanLoop[For each file]
+    ScanLoop --> ReadScan[readFileSync]
+    ReadScan --> ExtractScan[extractClassStrings]
+    ExtractScan --> CheckScan[checkClassString]
+    CheckScan --> ClassifyScan[classify each token]
+    ClassifyScan --> CompareOrder[Compare group numbers left → right]
+    CompareOrder --> Violations[Collect FileViolation records]
+    Violations --> ReportScan[printViolations / return result]
+
+    ReportFix --> Exit{Violations remain?}
+    ReportScan --> Exit
+    Exit -->|yes| Exit1[exit 1]
+    Exit -->|no| Exit0[exit 0]
+```
