@@ -22,51 +22,51 @@ Examples:
   twaz src/App.tsx
 `;
 
-function parseArgs(argv: string[]): { fix: boolean; help: boolean; paths: string[] } {
-  const paths: string[] = [];
-  let fix = false;
-  let help = false;
+function parseArgs(argv: string[]): { fix: boolean; help: boolean; paths: string[]; } {
+    const paths: string[] = [];
+    let fix = false;
+    let help = false;
 
-  for (const arg of argv) {
-    if (arg === "--fix") {
-      fix = true;
-    } else if (arg === "--help" || arg === "-h") {
-      help = true;
-    } else if (!arg.startsWith("-")) {
-      paths.push(arg);
+    for (const arg of argv) {
+        if (arg === "--fix") {
+            fix = true;
+        } else if (arg === "--help" || arg === "-h") {
+            help = true;
+        } else if (!arg.startsWith("-")) {
+            paths.push(arg);
+        }
     }
-  }
 
-  return { fix, help, paths };
+    return { fix, help, paths };
 }
 
 function main(): void {
-  const { fix, help, paths } = parseArgs(process.argv.slice(2));
+    const { fix, help, paths } = parseArgs(process.argv.slice(2));
 
-  if (help) {
-    console.log(HELP);
-    process.exit(0);
-  }
-
-  const scanPaths = paths.length > 0 ? paths.map((p) => resolve(p)) : [resolve(".")];
-  const { fileCount, violations, fixedCount } = runScan(scanPaths, { fix });
-
-  if (fix) {
-    if (violations.length > 0) {
-      printViolations(violations, fileCount);
-      process.exit(1);
+    if (help) {
+        console.log(HELP);
+        process.exit(0);
     }
+
+    const scanPaths = paths.length > 0 ? paths.map((p) => resolve(p)) : [resolve(".")];
+    const { fileCount, violations, fixedCount } = runScan(scanPaths, { fix });
+
+    if (fix) {
+        if (violations.length > 0) {
+            printViolations(violations, fileCount);
+            process.exit(1);
+        }
+        process.exit(0);
+    }
+
+    printViolations(violations, fileCount);
+
+    if (violations.length > 0) {
+        console.log("Run with --fix to reorder classes automatically.\n");
+        process.exit(1);
+    }
+
     process.exit(0);
-  }
-
-  printViolations(violations, fileCount);
-
-  if (violations.length > 0) {
-    console.log("Run with --fix to reorder classes automatically.\n");
-    process.exit(1);
-  }
-
-  process.exit(0);
 }
 
 main();
