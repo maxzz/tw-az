@@ -14,20 +14,24 @@ export function sortClassString(value: string): string {
         return value;
     }
 
-    const withMeta: TokenWithMeta[] = tokens.map((token, index) => ({
-        token,
-        sortGroup: classify(token),
-        index,
-    }));
+    const withMeta: TokenWithMeta[] = tokens.map(
+        (token, index) => ({
+            token,
+            sortGroup: classify(token),
+            index,
+        })
+    );
 
-    withMeta.sort((a, b) => {
-        const ga = a.sortGroup >= 0 ? a.sortGroup : UNKNOWN;
-        const gb = b.sortGroup >= 0 ? b.sortGroup : UNKNOWN;
-        if (ga !== gb) {
-            return ga - gb;
+    withMeta.sort(
+        (a, b) => {
+            const ga = a.sortGroup >= 0 ? a.sortGroup : UNKNOWN;
+            const gb = b.sortGroup >= 0 ? b.sortGroup : UNKNOWN;
+            if (ga !== gb) {
+                return ga - gb;
+            }
+            return a.index - b.index;
         }
-        return a.index - b.index;
-    });
+    );
 
     return withMeta.map((x) => x.token).join(" ");
 }

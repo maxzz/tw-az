@@ -6,13 +6,10 @@ import { extractClassStrings } from "./2-extract";
 import { checkClassString, sortClassString } from "./3-sort";
 import type { FileViolation, FixReplacement, ScanOptions } from "./9-types";
 
-export function walk(
-    dir: string,
-    extensions: readonly string[] = DEFAULT_EXTENSIONS,
-    files: string[] = [],
-): string[] {
+export function walk(dir: string, extensions: readonly string[] = DEFAULT_EXTENSIONS, files: string[] = []): string[] {
     for (const entry of readdirSync(dir)) {
         const full = join(dir, entry);
+
         if (statSync(full).isDirectory()) {
             if (!IGNORED_DIRECTORIES.has(entry)) {
                 walk(full, extensions, files);
@@ -43,20 +40,22 @@ export function collectFiles(paths: string[], extensions: readonly string[]): st
 
 export function applyFixes(file: string, matches: ReturnType<typeof extractClassStrings>): number {
     const toApply = matches
-        .map(({ index, length, full, value }): FixReplacement | null => {
-            if (checkClassString(value).length === 0) {
-                return null;
+        .map(
+            ({ index, length, full, value }): FixReplacement | null => {
+                if (checkClassString(value).length === 0) {
+                    return null;
+                }
+                const fixed = sortClassString(value);
+                if (fixed === value) {
+                    return null;
+                }
+                return {
+                    index,
+                    length,
+                    replacement: full.replace(value, fixed),
+                };
             }
-            const fixed = sortClassString(value);
-            if (fixed === value) {
-                return null;
-            }
-            return {
-                index,
-                length,
-                replacement: full.replace(value, fixed),
-            };
-        })
+        )
         .filter((item): item is FixReplacement => item !== null)
         .sort((a, b) => b.index - a.index);
 
@@ -69,13 +68,11 @@ export function applyFixes(file: string, matches: ReturnType<typeof extractClass
         content = content.slice(0, index) + replacement + content.slice(index + length);
     }
     writeFileSync(file, content, "utf8");
+
     return toApply.length;
 }
 
-export function scanForViolations(
-    filePaths: string[],
-    rootDir: string,
-): FileViolation[] {
+export function scanForViolations(filePaths: string[], rootDir: string): FileViolation[] {
     const violations: FileViolation[] = [];
 
     for (const file of filePaths) {
@@ -96,10 +93,7 @@ export function scanForViolations(
     return violations;
 }
 
-export function printViolations(
-    violations: FileViolation[],
-    fileCount: number,
-): void {
+export function printViolations(violations: FileViolation[], fileCount: number): void {
     const byFile = new Map<string, FileViolation[]>();
     for (const violation of violations) {
         const existing = byFile.get(violation.file);
@@ -117,9 +111,10 @@ export function printViolations(
 
     for (const [file, items] of [...byFile.entries()].sort()) {
         console.log(file);
+
         for (const item of items) {
-            const preview =
-                item.value.length > 100 ? `${item.value.slice(0, 100)}...` : item.value;
+            const preview = item.value.length > 100 ? `${item.value.slice(0, 100)}...` : item.value;
+
             console.log(`  L${item.line}: ${preview}`);
             for (const v of item.violations) {
                 console.log(`    - "${v.token}" (${v.group}) appears after ${v.after}`);
@@ -129,10 +124,7 @@ export function printViolations(
     }
 }
 
-export function runScan(
-    paths: string[],
-    options: ScanOptions = {},
-): { fileCount: number; violations: FileViolation[]; fixedCount: number; } {
+export function runScan(paths: string[], options: ScanOptions = {}): { fileCount: number; violations: FileViolation[]; fixedCount: number; } {
     const extensions = options.extensions ?? DEFAULT_EXTENSIONS;
     const rootDir = resolve(paths[0] ?? ".");
     const files = collectFiles(paths.length > 0 ? paths : ["."], extensions);
@@ -150,6 +142,7 @@ export function runScan(
 
         if (fixedCount > 0) {
             console.log("Re-checking after fix...\n");
+            
             const remaining = scanForViolations(files, rootDir);
             return { fileCount: files.length, violations: remaining, fixedCount };
         }
