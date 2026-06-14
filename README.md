@@ -36,6 +36,7 @@ Check and automatically fix Tailwind CSS utility class order in JSX/TSX files.
 - [Examples](#examples)
 - [How violations are detected](#how-violations-are-detected)
 - [Execution flow](#execution-flow)
+- [In conclusion](#in-conclusion)
 
 ## Installation
 
@@ -414,3 +415,9 @@ flowchart TD
     Exit -->|yes| Exit1[exit 1]
     Exit -->|no| Exit0[exit 0]
 ```
+
+## In conclusion
+
+twaz is an acronym standing for "Tailwind from A to Z" (referring not to alphabetical order, but to the order of values ​​in the CSS layout model).
+
+Happy coding!

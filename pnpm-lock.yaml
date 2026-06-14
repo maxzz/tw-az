@@ -20,6 +20,9 @@ importers:
       typescript:
         specifier: ^5.8.3
         version: 5.9.3
+      upen:
+        specifier: ^1.0.2
+        version: 1.0.2
 
 packages:
 
@@ -353,6 +356,10 @@ packages:
     resolution: {integrity: sha512-tixWYgm5ZoOD+3g6UTea91eow5z6AAHaho3g0V9CNSNb45gM8SmflpAc+GRd1InC4AqN/07Unrgp56Y94N9hJQ==}
     engines: {node: '>=20.19.0'}
 
+  commander@11.1.0:
+    resolution: {integrity: sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==}
+    engines: {node: '>=16'}
+
   defu@6.1.7:
     resolution: {integrity: sha512-7z22QmUWiQ/2d0KkdYmANbRUVABpZ9SNYyH5vx6PZ+nE5bcC0l7uFvEfHlyld/HcGBFTL536ClDt3DEcSlEJAQ==}
 
@@ -517,6 +524,11 @@ packages:
 
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+
+  upen@1.0.2:
+    resolution: {integrity: sha512-MaHsFTbahNtEz6o9PRap1X2mWiHaZThr32+zfP1Cy4xa7sGoXBsmcCnu4CrrMz8p5bzLPPovpMrj1TROWfmTsQ==}
+    engines: {node: '>=16.0.0'}
+    hasBin: true
 
 snapshots:
 
@@ -739,6 +751,8 @@ snapshots:
 
   cac@7.0.0: {}
 
+  commander@11.1.0: {}
+
   defu@6.1.7: {}
 
   dts-resolver@3.0.0: {}
@@ -896,3 +910,7 @@ snapshots:
       quansync: 1.0.0
 
   undici-types@6.21.0: {}
+
+  upen@1.0.2:
+    dependencies:
+      commander: 11.1.0
