@@ -1,10 +1,10 @@
 import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
-import { DEFAULT_EXTENSIONS, IGNORED_DIRECTORIES } from "./constants";
-import { extractClassStrings } from "./extract";
-import { checkClassString, sortClassString } from "./sort";
-import type { FileViolation, FixReplacement, ScanOptions } from "./types";
+import { DEFAULT_EXTENSIONS, IGNORED_DIRECTORIES } from "./8-constants";
+import { extractClassStrings } from "./2-extract";
+import { checkClassString, sortClassString } from "./3-sort";
+import type { FileViolation, FixReplacement, ScanOptions } from "./9-types";
 
 export function walk(
     dir: string,

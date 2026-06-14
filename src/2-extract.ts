@@ -1,5 +1,5 @@
-import { CLASS_PATTERNS } from "./constants";
-import type { ClassMatch } from "./types";
+import { CLASS_PATTERNS } from "./8-constants";
+import type { ClassMatch } from "./9-types";
 
 export function extractClassStrings(content: string): ClassMatch[] {
     const results: ClassMatch[] = [];

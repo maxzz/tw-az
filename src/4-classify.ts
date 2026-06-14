@@ -8,7 +8,7 @@ import {
     TRANSITION,
     TRUNCATE_OVERFLOW,
     VARIANT,
-} from "./constants";
+} from "./8-constants";
 
 export function baseToken(token: string): string {
     if (/^group\/[\w-]+$/.test(token)) {

@@ -10,7 +10,7 @@ Check and automatically fix Tailwind CSS utility class order in JSX/TSX files.
 - [Usage](#usage)
   - [CLI](#cli)
   - [Programmatic API](#programmatic-api)
-- [Development](#development)
+  - [Development](#development)
 - [What gets scanned](#what-gets-scanned)
 - [Tailwind class order rules](#tailwind-class-order-rules)
   - [Precedence overview](#precedence-overview)
@@ -80,7 +80,7 @@ sortClassString("bg-muted text-sm absolute top-0");
 const { violations } = runScan(["src"], { fix: false });
 ```
 
-## Development
+### Development
 
 ```bash
 npm install

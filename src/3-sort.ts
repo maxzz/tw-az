@@ -1,6 +1,6 @@
-import { classify } from "./classify";
-import { GROUP_NAMES, UNKNOWN } from "./constants";
-import type { OrderViolation } from "./types";
+import { classify } from "./4-classify";
+import { GROUP_NAMES, UNKNOWN } from "./8-constants";
+import type { OrderViolation } from "./9-types";
 
 interface TokenWithMeta {
     token: string;
