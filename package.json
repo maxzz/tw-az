@@ -39,11 +39,17 @@
         "upen": "^1.0.2"
     },
     "scripts": {
-        "build": "tsdown",
         "dev": "tsx src/cli.ts",
         "start": "tsx src/cli.ts",
         "fix": "tsx src/cli.ts --fix",
+        "tsc": "tsc -w",
         "typecheck": "tsc --noEmit",
-        "prepublishOnly": "npm run build"
+        "pretypecheck": "tsx scripts/generate-version.ts",
+        "prebuild": "tsx scripts/generate-version.ts",
+        "predev": "tsx scripts/generate-version.ts",
+        "prestart": "tsx scripts/generate-version.ts",
+        "build": "tsdown",
+        "prepublishOnly": "npm run build",
+        "to-npm": "pnpm publish"
     }
 }

@@ -1,10 +1,12 @@
-export const HELP = `twaz — check and fix Tailwind CSS class order
+import { VERSION } from "./version";
+
+export const HELP: string = `twaz — check and fix Tailwind CSS class order v${VERSION}
 
 Usage:
   twaz [options] [paths...]
 
 Options:
-  --fix       Reorder classes automatically in place
+  --fix, -f   Reorder classes automatically in place
   --help, -h  Show this help message
 
 Arguments:
@@ -22,7 +24,7 @@ export function parseArgs(argv: string[]): { fix: boolean; help: boolean; paths:
     let help = false;
 
     for (const arg of argv) {
-        if (arg === "--fix") {
+        if (arg === "--fix" || arg === "-f") {
             fix = true;
         } else if (arg === "--help" || arg === "-h") {
             help = true;
