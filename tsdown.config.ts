@@ -6,4 +6,13 @@ export default defineConfig({
     dts: true,
     clean: true,
     target: "node18",
+    inputOptions(options) {
+        return {
+            ...options,
+            onLog(level, log, handler) {
+                if (log.code === "SOURCEMAP_BROKEN") return;
+                handler(level, log);
+            },
+        };
+    },
 });

@@ -39,3 +39,4 @@ main();
 
 //TODO: colorize the output
 //TODO: use object from runScan() and pass it to printViolations()
+//TODO: publish to npm
