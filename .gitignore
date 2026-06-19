@@ -8,4 +8,3 @@ Thumbs.db
 !.env.example
 coverage/
 *.tsbuildinfo
-#src/version.ts
