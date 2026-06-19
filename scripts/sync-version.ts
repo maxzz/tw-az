@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const pkgPath = join(root, "package.json");
-const out = join(root, "src", "version.ts");
+const out = join(root, "src", "8-version.ts");
 const bump = process.argv.includes("--bump");
 
 const pkg = JSON.parse(readFileSync(pkgPath, "utf8")) as { version: string; [key: string]: unknown };
@@ -22,7 +22,7 @@ if (bump) {
 writeFileSync(
     out,
     [
-        "// Synced from package.json by scripts/sync-version.ts — do not edit by hand.",
+        "// Synced from package.json by scripts/sync-version.ts — do not edit by hand.\n",
         `export const VERSION: string = ${JSON.stringify(pkg.version)};`,
         "",
     ].join("\n"),

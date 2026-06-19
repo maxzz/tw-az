@@ -1,6 +1,6 @@
 {
     "name": "twaz",
-    "version": "0.0.2",
+    "version": "0.26.3",
     "description": "Check and automatically fix Tailwind CSS utility class order in JSX/TSX files",
     "author": "Max Zakharzhevskyi",
     "license": "MIT",
@@ -39,10 +39,9 @@
         "upen": "^1.0.2"
     },
     "scripts": {
-        "dev": "tsx src/cli.ts",
-        "start": "tsx src/cli.ts",
-        "fix": "tsx src/cli.ts --fix",
         "tsc": "tsc -w",
+        "dev": "tsx src/cli.ts",
+        "fix": "tsx src/cli.ts --fix",
         "typecheck": "tsc --noEmit",
         "build": "tsx scripts/sync-version.ts --bump && tsdown",
         "version": "tsx scripts/sync-version.ts",

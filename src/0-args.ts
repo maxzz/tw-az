@@ -1,6 +1,6 @@
-import { VERSION } from "./version";
+import { VERSION } from "./8-version";
 
-export const HELP: string = `twaz — check and fix Tailwind CSS class order v${VERSION}
+export const HELP: string = `twaz — check and fix Tailwind CSS class order (version ${VERSION})
 
 Usage:
   twaz [options] [paths...]
